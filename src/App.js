@@ -5,6 +5,9 @@ import { Route, Link } from 'react-router-dom'
 import ListBooksPerCategory from './components/ListBooksPerCategory'
 import Search from './components/Search'
 
+const CategoryAlias = ["wantToRead", "currentlyReading", "read"];
+const CategoryTitle = ["Want To Read", "Currently Reading", "Read"];
+
 class BooksApp extends React.Component {
   
   state = {
@@ -12,22 +15,19 @@ class BooksApp extends React.Component {
   }
 
   reloadBooks = () => {
-      
-      BooksAPI.getAll()	
+    BooksAPI.getAll()	
       .then((Books) => {
-      this.setState((currentState) => ({
-        Books: Books
-      }))
+        this.setState((currentState) => ({
+          Books: Books
+        })
+      )
     })
-
   }
 
   updateBooks = (B) => {
-  
     this.setState((currentState) => ({
-        Books: B
-      }))
-    
+      Books: B
+    }))
   }
 
   componentDidMount() {
@@ -37,14 +37,24 @@ class BooksApp extends React.Component {
   render() {
     return (
       <div className="app">
-        
-
+       
         <Route exact path='/' render={() => ( 
           <div className="list-books">
             <div className="list-books-title">
               <h1>MyReads</h1>
             </div>
-                 <ListBooksPerCategory Books={this.state.Books} reloadBooks={this.reloadBooks} />
+            {CategoryAlias.map((category, index) => (
+              <div key={category}>
+                <ListBooksPerCategory 
+                  Books={this.state.Books} 
+                  reloadBooks={this.reloadBooks} 
+                  CategoryAlias={CategoryAlias} 
+                  CategoryTitle={CategoryTitle}  
+                  index={ index} 
+                  category={category} 
+                />
+              </div>
+            ))}
             <div className='open-search'>
               <Link to='/search'> Search </Link>
             </div>

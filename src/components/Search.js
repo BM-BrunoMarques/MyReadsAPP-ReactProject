@@ -4,6 +4,9 @@ import { Link } from 'react-router-dom'
 import '../App.css'
 import Book from './Book'
 
+/*In this component, when the user types in the search bar for a book, a request to BooksAPI is made
+It's called on the "Search Page"
+*/
 
 const SearchPage = true;
 let BooksQa = {};
@@ -43,8 +46,7 @@ class Search extends React.Component {
           if (BooksQ.length > 0){
             ShelfBooks = this.props.Books
             BooksQueried = BooksQ
-            BooksQa = Object.values(BooksQ).map((obj) => ShelfBooks.find(o => o.id == obj.id) || obj)
-            BooksQa = BooksQa.filter((Book) => ( typeof Book.imageLinks !== 'undefined'))
+            BooksQa = Object.values(BooksQ).map((obj) => ShelfBooks.find(o => o.id === obj.id) || obj)
             
             this.setState(() => ({
               BooksQuery: BooksQa
@@ -58,10 +60,10 @@ class Search extends React.Component {
     }
   }
 
+// this function is called on BookShelfChanger, whenever a shelf is updated, it re-renders the search page with the new results
   UpdSearch = () => {
     ShelfBooks = this.props.Books
-    BooksQa = Object.values(BooksQueried).map((obj) => ShelfBooks.find(o => o.id == obj.id) || obj)
-    BooksQa = BooksQa.filter((Book) => ( typeof Book.imageLinks !== 'undefined'))
+    BooksQa = Object.values(BooksQueried).map((obj) => ShelfBooks.find(o => o.id === obj.id) || obj)
     this.setState(() => ({
       BooksQuery: BooksQa
     }))
@@ -69,8 +71,8 @@ class Search extends React.Component {
 
 
   render() {
-    const {Books} = this.props
     const {BooksQuery, Error} = this.state
+
     return (
     <div>
       <div className="search-books-bar">
@@ -93,7 +95,7 @@ class Search extends React.Component {
 			<Book Book={booke} reloadBooks={this.props.reloadBooks} UpdSearch={this.UpdSearch} SearchPage={SearchPage}/>
           </li>                                                              
           ):
-          `... No Results Found ...`
+          `No Results Found ...`
           }
         </ol>
       </div>
