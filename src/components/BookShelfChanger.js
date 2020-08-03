@@ -27,7 +27,7 @@ class BookShelfChanger extends React.Component {
 
   render() {
     const {Book} = this.props
-    const DefaultSel = (typeof Book.shelf === 'undefined') ? 'move' : Book.shelf
+    const DefaultSel = (typeof Book.shelf === 'undefined') ? 'none' : Book.shelf
     return (
 
       <div className={`book-shelf-changer ${Book.shelf}`}>
